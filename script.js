@@ -1,3 +1,7 @@
+// A score will be tracked for the human player and computer player
+let humanScore = 0;
+let computerScore = 0;
+
 // getComputerChoice will randomly return one of the following string values: “rock”, “paper” or “scissors”.
 function getComputerChoice() {
   // Since we are determining what the computer choice will be between 3 possible options we want to create a random number between 1 and 3, inclusive.
@@ -17,53 +21,41 @@ function playRound(humanChoice) {
 
   // Rock Beats Scissors
   if (humanChoice === "rock" && computerChoice === "scissors") {
-    console.log("Human Choice: ", humanChoice);
-    console.log("Computer Choice: ", computerChoice);
-    console.log("Rock beats Scissors!");
+    roundDetails.textContent = "Rock Beats Scissors!";
+    displayHumanChoice.textContent = `Human Choice: ${humanChoice}`;
+    displayComputerChoice.textContent = `Computer Choice: ${computerChoice}`;
     humanScore += 1;
-    console.log("Human Score: ", humanScore);
-    console.log("Computer Score: ", computerScore);
   } else if (computerChoice === "rock" && humanChoice === "scissors") {
-    console.log("Human Choice: ", humanChoice);
-    console.log("Computer Choice: ", computerChoice);
-    console.log("Rock beats Scissors!");
+    roundDetails.textContent = "Rock Beats Scissors!";
+    displayHumanChoice.textContent = `Human Choice: ${humanChoice}`;
+    displayComputerChoice.textContent = `Computer Choice: ${computerChoice}`;
     computerScore += 1;
-    console.log("Human Score: ", humanScore);
-    console.log("Computer Score: ", computerScore);
   }
 
   // Scissors Beats Paper
   if (humanChoice === "scissors" && computerChoice === "paper") {
-    console.log("Human Choice: ", humanChoice);
-    console.log("Computer Choice: ", computerChoice);
-    console.log("Scissors beats Paper!");
+    roundDetails.textContent = "Scissors Beats Paper!";
+    displayHumanChoice.textContent = `Human Choice: ${humanChoice}`;
+    displayComputerChoice.textContent = `Computer Choice: ${computerChoice}`;
     humanScore += 1;
-    console.log("Human Score: ", humanScore);
-    console.log("Computer Score: ", computerScore);
   } else if (computerChoice === "scissors" && humanChoice === "paper") {
-    console.log("Human Choice: ", humanChoice);
-    console.log("Computer Choice: ", computerChoice);
-    console.log("Scissors beats Paper!");
+    roundDetails.textContent = "Scissors Beats Paper!";
+    displayHumanChoice.textContent = `Human Choice: ${humanChoice}`;
+    displayComputerChoice.textContent = `Computer Choice: ${computerChoice}`;
     computerScore += 1;
-    console.log("Human Score: ", humanScore);
-    console.log("Computer Score: ", computerScore);
   }
 
   // Paper Beats Rock
   if (humanChoice === "paper" && computerChoice === "rock") {
-    console.log("Human Choice: ", humanChoice);
-    console.log("Computer Choice: ", computerChoice);
-    console.log("Paper beats Rock!");
+    roundDetails.textContent = "Paper Beats Rock!";
+    displayHumanChoice.textContent = `Human Choice: ${humanChoice}`;
+    displayComputerChoice.textContent = `Computer Choice: ${computerChoice}`;
     humanScore += 1;
-    console.log("Human Score: ", humanScore);
-    console.log("Computer Score: ", computerScore);
   } else if (computerChoice === "paper" && humanChoice === "rock") {
-    console.log("Human Choice: ", humanChoice);
-    console.log("Computer Choice: ", computerChoice);
-    console.log("Paper beats Rock!");
+    roundDetails.textContent = "Paper Beats Rock!";
+    displayHumanChoice.textContent = `Human Choice: ${humanChoice}`;
+    displayComputerChoice.textContent = `Computer Choice: ${computerChoice}`;
     computerScore += 1;
-    console.log("Human Score: ", humanScore);
-    console.log("Computer Score: ", computerScore);
   }
 
   // Cases in which there is a draw
@@ -72,15 +64,67 @@ function playRound(humanChoice) {
     (humanChoice === "paper" && computerChoice === "paper") ||
     (humanChoice === "scissors" && computerChoice === "scissors")
   ) {
-    console.log("Human Choice: ", humanChoice);
-    console.log("Computer Choice: ", computerChoice);
-    console.log("Draw!");
+    roundDetails.textContent = "Draw!";
+    displayHumanChoice.textContent = `Human Choice: ${humanChoice}`;
+    displayComputerChoice.textContent = `Computer Choice: ${computerChoice}`;
+  }
+
+  humanScoreResults.textContent = `Human Score: ${humanScore}`;
+  computerScoreResults.textContent = `Computer Score: ${computerScore}`;
+
+  // This will determine the winner, display the final score, and reset for the next game
+  if (humanScore === 5) {
+    roundDetails.textContent = "Game Over! Human Player Wins!";
+    displayHumanChoice.textContent = " ";
+    displayComputerChoice.textContent = " ";
+    humanScore = 0;
+    computerScore = 0;
+    return { humanScore, computerScore };
+  } else if (computerScore === 5) {
+    roundDetails.textContent = "Game Over! Computer Player Wins!";
+    displayHumanChoice.textContent = " ";
+    displayComputerChoice.textContent = " ";
+    humanScore = 0;
+    computerScore = 0;
   }
 }
 
+// UI Setup
 const body = document.querySelector("body");
+
 const rpsContainer = document.createElement("div");
+rpsContainer.setAttribute("id", "rpsContainer");
+
+const results = document.createElement("div");
+results.setAttribute("id", "results");
+
+const roundDetails = document.createElement("h3");
+roundDetails.classList.add("game-score");
+roundDetails.textContent = "Let the games begin!";
+
+const displayHumanChoice = document.createElement("h3");
+displayHumanChoice.classList.add("game-score");
+displayHumanChoice.textContent = "";
+
+const displayComputerChoice = document.createElement("h3");
+displayComputerChoice.classList.add("game-score");
+displayComputerChoice.textContent = "";
+
+const humanScoreResults = document.createElement("h3");
+humanScoreResults.classList.add("game-score");
+humanScoreResults.textContent = `Human Score: ${humanScore}`;
+
+const computerScoreResults = document.createElement("h3");
+computerScoreResults.classList.add("game-score");
+computerScoreResults.textContent = `Computer Score: ${computerScore}`;
+
+results.appendChild(roundDetails);
+results.appendChild(displayHumanChoice);
+results.appendChild(displayComputerChoice);
+results.appendChild(humanScoreResults);
+results.appendChild(computerScoreResults);
 body.appendChild(rpsContainer);
+body.appendChild(results);
 
 // Buttons for human player selection
 const rockButton = document.createElement("button");
@@ -114,7 +158,3 @@ const scissors = document.querySelector("#scissors-selection");
 scissors.addEventListener("click", () => {
   playRound("scissors");
 });
-
-// A score will be tracked for the human player and computer player
-let humanScore = 0;
-let computerScore = 0;
